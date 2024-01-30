@@ -1,3 +1,94 @@
-[gd_scene format=3 uid="uid://w8fhk5w0x1xg"]
+[gd_scene load_steps=9 format=3 uid="uid://w8fhk5w0x1xg"]
+
+[ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
+[ext_resource type="Texture2D" uid="uid://dys5n8g4utvmp" path="res://assets/textures/background/background_l1.png" id="2_bdgrh"]
+[ext_resource type="Texture2D" uid="uid://bekf6ys7nbiu4" path="res://assets/textures/background/background_l2.png" id="3_dtnan"]
+[ext_resource type="Texture2D" uid="uid://bbmry1cv12he" path="res://assets/textures/background/background_l3.png" id="4_xuvvs"]
+[ext_resource type="Texture2D" uid="uid://cnynn1ddcmt1y" path="res://assets/textures/background/background_l4.png" id="5_vjsx6"]
+[ext_resource type="Texture2D" uid="uid://bgxgcipyxn5ct" path="res://assets/textures/ui/ninepatch.png" id="6_rq5mk"]
+[ext_resource type="FontFile" uid="uid://ceksqams405ke" path="res://assets/font/Pixellari.ttf" id="7_k8eq1"]
+[ext_resource type="Script" path="res://scripts/main_menu/animation_controller.gd" id="8_6ois2"]
 
 [node name="Menu" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("1_u6nw0")
+
+[node name="Layer1" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("2_bdgrh")
+region_enabled = true
+region_rect = Rect2(0, 0, 960, 180)
+
+[node name="Layer2" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("3_dtnan")
+region_enabled = true
+region_rect = Rect2(0, 0, 960, 180)
+
+[node name="Layer3" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("4_xuvvs")
+region_enabled = true
+region_rect = Rect2(0, 0, 960, 180)
+
+[node name="Layer4" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("5_vjsx6")
+region_enabled = true
+region_rect = Rect2(0, 0, 960, 180)
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="UI_Main" type="Node2D" parent="."]
+
+[node name="Buttons" type="Control" parent="UI_Main"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+offset_bottom = 64.0
+
+[node name="Button1" type="Button" parent="UI_Main/Buttons" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_left = 32.0
+offset_right = 96.0
+offset_bottom = 16.0
+
+[node name="Contents" type="Control" parent="UI_Main/Buttons/Button1"]
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="Background" type="NinePatchRect" parent="UI_Main/Buttons/Button1/Contents"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 16.0
+texture = ExtResource("6_rq5mk")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Label" type="Label" parent="UI_Main/Buttons/Button1/Contents"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Play"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationController" type="Node" parent="."]
+script = ExtResource("8_6ois2")
