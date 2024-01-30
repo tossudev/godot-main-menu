@@ -49,5 +49,6 @@ func _on_button_back_pressed():
 	move_camera("Main")
 
 
-
+func _on_button_quit_pressed():
+	SceneChanger.quit()
 

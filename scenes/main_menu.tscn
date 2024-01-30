@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://w8fhk5w0x1xg"]
+[gd_scene load_steps=11 format=3 uid="uid://w8fhk5w0x1xg"]
 
 [ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_ek0oj"]
 [ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bgxgcipyxn5ct" path="res://assets/textures/ui/ninepatch.png" id="6_rq5mk"]
 [ext_resource type="FontFile" uid="uid://ceksqams405ke" path="res://assets/font/Pixellari.ttf" id="7_k8eq1"]
 [ext_resource type="Script" path="res://scripts/main_menu/animation_controller.gd" id="8_6ois2"]
+[ext_resource type="Script" path="res://scripts/main_menu/credits_meta.gd" id="9_2k6x0"]
 
 [node name="Menu" type="Node2D"]
 script = ExtResource("1_ek0oj")
@@ -246,11 +247,43 @@ text = "Back"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TextCredits" type="RichTextLabel" parent="Menus/Credits"]
+offset_left = -152.0
+offset_top = -80.0
+offset_right = 152.0
+offset_bottom = 64.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/normal_font = ExtResource("7_k8eq1")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "[center][rainbow freq=0.1 sat=0.4 val=1.0]
+[wave amp=20.0 freq=5.0 connected=1]Credits[/wave][/rainbow]
+
+
+Programming, design & graphics
+Tossu
+[color=#28ccdf][url]https://tossu.itch.io[/url][/color]
+
+Font used is Pixellari by zedseven
+[color=#28ccdf][url]https://github.com/zedseven/Pixellari[/url][/color]
+
+The scene transition shader is made by mackatap.
+[color=#28ccdf][url]https://godotshaders.com/shader/diamond-based-screen-transition/[/url][/color]
+
+
+Github repo:
+[color=#28ccdf][url]https://github.com/tossudev/godot-main-menu/[/url][/color]"
+meta_underlined = false
+script = ExtResource("9_2k6x0")
+
 [node name="AnimationController" type="Node" parent="."]
 script = ExtResource("8_6ois2")
 do_title_animation = true
 title_node_path = NodePath("../Menus/Main/Title")
 
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonPlay" to="." method="_on_button_play_pressed"]
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonQuit" to="." method="_on_button_quit_pressed"]
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonCredits" to="." method="_on_button_credits_pressed"]
 [connection signal="pressed" from="Menus/Credits/ButtonBack" to="." method="_on_button_back_pressed"]
+[connection signal="meta_clicked" from="Menus/Credits/TextCredits" to="Menus/Credits/TextCredits" method="_on_meta_clicked"]

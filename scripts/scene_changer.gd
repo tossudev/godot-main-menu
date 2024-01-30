@@ -1,8 +1,9 @@
 extends CanvasLayer
 
-const TRANSITION_TIME: float = 1.0
+const TRANSITION_TIME: float = 0.8
 
 var transition_playing: bool = false
+var quitting: bool = false
 
 # Node References
 @onready var transition_nodes: Array = [
@@ -26,6 +27,17 @@ func change_scene(to: String) -> void:
 	
 	_scene_transition(false)
 	transition_playing = false
+
+
+func quit() -> void:
+	if transition_playing:
+		return
+	
+	transition_playing = true
+	quitting = true
+	await _scene_transition(true)
+	
+	get_tree().quit()
 
 
 # Animation for changing scenes.
