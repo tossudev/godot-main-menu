@@ -40,7 +40,7 @@ func _update_background_visuals(delta: float) -> void:
 		
 		layer_node.position.x += amount_to_move
 		
-		if layer_node.position.x >= LAYER_WIDTH:
+		if layer_node.position.x <= LAYER_WIDTH * LAYER_DIRECTION:
 			layer_node.position.x = 0.0
 		
 		layer_index += 1
