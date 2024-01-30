@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://w8fhk5w0x1xg"]
+[gd_scene load_steps=10 format=3 uid="uid://w8fhk5w0x1xg"]
 
 [ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
 [ext_resource type="Texture2D" uid="uid://dys5n8g4utvmp" path="res://assets/textures/background/background_l1.png" id="2_bdgrh"]
 [ext_resource type="Texture2D" uid="uid://bekf6ys7nbiu4" path="res://assets/textures/background/background_l2.png" id="3_dtnan"]
 [ext_resource type="Texture2D" uid="uid://bbmry1cv12he" path="res://assets/textures/background/background_l3.png" id="4_xuvvs"]
 [ext_resource type="Texture2D" uid="uid://cnynn1ddcmt1y" path="res://assets/textures/background/background_l4.png" id="5_vjsx6"]
+[ext_resource type="Script" path="res://scripts/main_menu/menu_main.gd" id="6_e7uhl"]
 [ext_resource type="Texture2D" uid="uid://bgxgcipyxn5ct" path="res://assets/textures/ui/ninepatch.png" id="6_rq5mk"]
 [ext_resource type="FontFile" uid="uid://ceksqams405ke" path="res://assets/font/Pixellari.ttf" id="7_k8eq1"]
 [ext_resource type="Script" path="res://scripts/main_menu/animation_controller.gd" id="8_6ois2"]
@@ -44,44 +45,62 @@ region_rect = Rect2(0, 0, 960, 180)
 
 [node name="Camera" type="Camera2D" parent="."]
 
-[node name="UI_Main" type="Node2D" parent="."]
+[node name="Main" type="Node2D" parent="."]
+script = ExtResource("6_e7uhl")
 
-[node name="Buttons" type="Control" parent="UI_Main"]
+[node name="Title" type="Label" parent="Main"]
+texture_filter = 1
+offset_left = -128.0
+offset_top = -72.0
+offset_right = 128.0
+offset_bottom = -24.0
+pivot_offset = Vector2(128, 24)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 32
+text = "Game Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="Control" parent="Main"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -64.0
 offset_top = -8.0
 offset_right = 64.0
-offset_bottom = 64.0
+offset_bottom = 88.0
 
-[node name="Button1" type="Button" parent="UI_Main/Buttons" groups=["buttons"]]
+[node name="ButtonPlay" type="Button" parent="Main/Buttons" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_left = 32.0
+offset_top = 8.0
 offset_right = 96.0
-offset_bottom = 16.0
+offset_bottom = 32.0
 
-[node name="Contents" type="Control" parent="UI_Main/Buttons/Button1"]
+[node name="Contents" type="Control" parent="Main/Buttons/ButtonPlay"]
 anchors_preset = 0
 offset_right = 64.0
-offset_bottom = 16.0
+offset_bottom = 24.0
 mouse_filter = 2
 
-[node name="Background" type="NinePatchRect" parent="UI_Main/Buttons/Button1/Contents"]
+[node name="Background" type="NinePatchRect" parent="Main/Buttons/ButtonPlay/Contents"]
+self_modulate = Color(0.9, 0.9, 0.9, 1)
 texture_filter = 1
 layout_mode = 0
 offset_right = 64.0
-offset_bottom = 16.0
+offset_bottom = 24.0
 texture = ExtResource("6_rq5mk")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Label" type="Label" parent="UI_Main/Buttons/Button1/Contents"]
+[node name="Text" type="Label" parent="Main/Buttons/ButtonPlay/Contents"]
 layout_mode = 0
 offset_right = 64.0
-offset_bottom = 16.0
+offset_bottom = 24.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("7_k8eq1")
@@ -90,79 +109,111 @@ text = "Play"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button2" type="Button" parent="UI_Main/Buttons" groups=["buttons"]]
+[node name="ButtonSettings" type="Button" parent="Main/Buttons" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-offset_left = 32.0
-offset_top = 24.0
-offset_right = 96.0
-offset_bottom = 40.0
+offset_left = 24.0
+offset_top = 36.0
+offset_right = 104.0
+offset_bottom = 60.0
 
-[node name="Contents" type="Control" parent="UI_Main/Buttons/Button2"]
+[node name="Contents" type="Control" parent="Main/Buttons/ButtonSettings"]
 anchors_preset = 0
-offset_right = 64.0
-offset_bottom = 16.0
+offset_right = 80.0
+offset_bottom = 24.0
 mouse_filter = 2
 
-[node name="Background" type="NinePatchRect" parent="UI_Main/Buttons/Button2/Contents"]
+[node name="Background" type="NinePatchRect" parent="Main/Buttons/ButtonSettings/Contents"]
+self_modulate = Color(0.9, 0.9, 0.9, 1)
 texture_filter = 1
 layout_mode = 0
-offset_right = 64.0
-offset_bottom = 16.0
+offset_right = 80.0
+offset_bottom = 24.0
 texture = ExtResource("6_rq5mk")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Label" type="Label" parent="UI_Main/Buttons/Button2/Contents"]
+[node name="Text" type="Label" parent="Main/Buttons/ButtonSettings/Contents"]
 layout_mode = 0
-offset_right = 64.0
-offset_bottom = 16.0
+offset_right = 80.0
+offset_bottom = 24.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("7_k8eq1")
 theme_override_font_sizes/font_size = 12
-text = "Play"
+text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button3" type="Button" parent="UI_Main/Buttons" groups=["buttons"]]
+[node name="ButtonQuit" type="Button" parent="Main/Buttons" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_left = 32.0
-offset_top = 48.0
+offset_top = 64.0
 offset_right = 96.0
-offset_bottom = 64.0
+offset_bottom = 88.0
 
-[node name="Contents" type="Control" parent="UI_Main/Buttons/Button3"]
+[node name="Contents" type="Control" parent="Main/Buttons/ButtonQuit"]
 anchors_preset = 0
 offset_right = 64.0
-offset_bottom = 16.0
+offset_bottom = 24.0
 mouse_filter = 2
 
-[node name="Background" type="NinePatchRect" parent="UI_Main/Buttons/Button3/Contents"]
+[node name="Background" type="NinePatchRect" parent="Main/Buttons/ButtonQuit/Contents"]
+self_modulate = Color(0.9, 0.45, 0.45, 1)
 texture_filter = 1
 layout_mode = 0
 offset_right = 64.0
-offset_bottom = 16.0
+offset_bottom = 24.0
 texture = ExtResource("6_rq5mk")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Label" type="Label" parent="UI_Main/Buttons/Button3/Contents"]
+[node name="Text" type="Label" parent="Main/Buttons/ButtonQuit/Contents"]
 layout_mode = 0
 offset_right = 64.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Quit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCredits" type="Button" parent="Main/Buttons" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_left = 168.0
+offset_top = 80.0
+offset_right = 224.0
+offset_bottom = 96.0
+
+[node name="Contents" type="Control" parent="Main/Buttons/ButtonCredits"]
+anchors_preset = 0
+offset_right = 56.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="Main/Buttons/ButtonCredits/Contents"]
+layout_mode = 0
+offset_left = -8.0
+offset_right = 48.0
 offset_bottom = 16.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("7_k8eq1")
 theme_override_font_sizes/font_size = 12
-text = "Play"
-horizontal_alignment = 1
+text = "Credits"
+horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="AnimationController" type="Node" parent="."]
 script = ExtResource("8_6ois2")
+
+[connection signal="pressed" from="Main/Buttons/ButtonPlay" to="Main" method="_on_button_play_pressed"]

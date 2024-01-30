@@ -12,8 +12,13 @@ config_version=5
 
 config/name="Godot main menu"
 config/description="Custom Godot main menu that features simple settings, keybinds, credits page and more."
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneChanger="*res://scenes/scene_changer.tscn"
 
 [display]
 

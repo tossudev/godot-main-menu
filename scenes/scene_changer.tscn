@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://dh3rebpakvpv6"]
+
+[ext_resource type="Script" path="res://scripts/scene_changer.gd" id="1_gkdit"]
+[ext_resource type="Shader" path="res://assets/shaders/scene_change_transition.gdshader" id="1_mka6u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsth2"]
+shader = ExtResource("1_mka6u")
+shader_parameter/progress = 0.0
+shader_parameter/diamondPixelSize = 32.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kd86w"]
+shader = ExtResource("1_mka6u")
+shader_parameter/progress = 0.0
+shader_parameter/diamondPixelSize = 32.0
+
+[node name="SceneChanger" type="CanvasLayer"]
+script = ExtResource("1_gkdit")
+
+[node name="TransitionIn" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_jsth2")
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 328.0
+offset_bottom = 192.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TransitionOut" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_kd86w")
+offset_left = 328.0
+offset_top = 192.0
+offset_right = 664.0
+offset_bottom = 392.0
+rotation = 3.14159
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
