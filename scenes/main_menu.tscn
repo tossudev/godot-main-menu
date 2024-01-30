@@ -1,16 +1,17 @@
 [gd_scene load_steps=10 format=3 uid="uid://w8fhk5w0x1xg"]
 
+[ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_ek0oj"]
 [ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
 [ext_resource type="Texture2D" uid="uid://dys5n8g4utvmp" path="res://assets/textures/background/background_l1.png" id="2_bdgrh"]
 [ext_resource type="Texture2D" uid="uid://bekf6ys7nbiu4" path="res://assets/textures/background/background_l2.png" id="3_dtnan"]
 [ext_resource type="Texture2D" uid="uid://bbmry1cv12he" path="res://assets/textures/background/background_l3.png" id="4_xuvvs"]
 [ext_resource type="Texture2D" uid="uid://cnynn1ddcmt1y" path="res://assets/textures/background/background_l4.png" id="5_vjsx6"]
-[ext_resource type="Script" path="res://scripts/main_menu/menu_main.gd" id="6_e7uhl"]
 [ext_resource type="Texture2D" uid="uid://bgxgcipyxn5ct" path="res://assets/textures/ui/ninepatch.png" id="6_rq5mk"]
 [ext_resource type="FontFile" uid="uid://ceksqams405ke" path="res://assets/font/Pixellari.ttf" id="7_k8eq1"]
 [ext_resource type="Script" path="res://scripts/main_menu/animation_controller.gd" id="8_6ois2"]
 
 [node name="Menu" type="Node2D"]
+script = ExtResource("1_ek0oj")
 
 [node name="Background" type="Node2D" parent="."]
 script = ExtResource("1_u6nw0")
@@ -20,35 +21,36 @@ texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("2_bdgrh")
 region_enabled = true
-region_rect = Rect2(0, 0, 960, 180)
+region_rect = Rect2(0, 0, 1920, 540)
 
 [node name="Layer2" type="Sprite2D" parent="Background"]
 texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("3_dtnan")
 region_enabled = true
-region_rect = Rect2(0, 0, 960, 180)
+region_rect = Rect2(0, 0, 1920, 540)
 
 [node name="Layer3" type="Sprite2D" parent="Background"]
 texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("4_xuvvs")
 region_enabled = true
-region_rect = Rect2(0, 0, 960, 180)
+region_rect = Rect2(0, 0, 1920, 540)
 
 [node name="Layer4" type="Sprite2D" parent="Background"]
 texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("5_vjsx6")
 region_enabled = true
-region_rect = Rect2(0, 0, 960, 180)
+region_rect = Rect2(0, 0, 1920, 540)
 
 [node name="Camera" type="Camera2D" parent="."]
 
-[node name="Main" type="Node2D" parent="."]
-script = ExtResource("6_e7uhl")
+[node name="Menus" type="Node2D" parent="."]
 
-[node name="Title" type="Label" parent="Main"]
+[node name="Main" type="Node2D" parent="Menus"]
+
+[node name="Title" type="Label" parent="Menus/Main"]
 texture_filter = 1
 offset_left = -128.0
 offset_top = -72.0
@@ -63,7 +65,7 @@ text = "Game Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Buttons" type="Control" parent="Main"]
+[node name="Buttons" type="Control" parent="Menus/Main"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -64.0
@@ -71,7 +73,7 @@ offset_top = -8.0
 offset_right = 64.0
 offset_bottom = 88.0
 
-[node name="ButtonPlay" type="Button" parent="Main/Buttons" groups=["buttons"]]
+[node name="ButtonPlay" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_left = 32.0
@@ -79,13 +81,13 @@ offset_top = 8.0
 offset_right = 96.0
 offset_bottom = 32.0
 
-[node name="Contents" type="Control" parent="Main/Buttons/ButtonPlay"]
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonPlay"]
 anchors_preset = 0
 offset_right = 64.0
 offset_bottom = 24.0
 mouse_filter = 2
 
-[node name="Background" type="NinePatchRect" parent="Main/Buttons/ButtonPlay/Contents"]
+[node name="Background" type="NinePatchRect" parent="Menus/Main/Buttons/ButtonPlay/Contents"]
 self_modulate = Color(0.9, 0.9, 0.9, 1)
 texture_filter = 1
 layout_mode = 0
@@ -97,7 +99,7 @@ patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Text" type="Label" parent="Main/Buttons/ButtonPlay/Contents"]
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonPlay/Contents"]
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 24.0
@@ -109,7 +111,7 @@ text = "Play"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonSettings" type="Button" parent="Main/Buttons" groups=["buttons"]]
+[node name="ButtonSettings" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_left = 24.0
@@ -117,13 +119,13 @@ offset_top = 36.0
 offset_right = 104.0
 offset_bottom = 60.0
 
-[node name="Contents" type="Control" parent="Main/Buttons/ButtonSettings"]
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonSettings"]
 anchors_preset = 0
 offset_right = 80.0
 offset_bottom = 24.0
 mouse_filter = 2
 
-[node name="Background" type="NinePatchRect" parent="Main/Buttons/ButtonSettings/Contents"]
+[node name="Background" type="NinePatchRect" parent="Menus/Main/Buttons/ButtonSettings/Contents"]
 self_modulate = Color(0.9, 0.9, 0.9, 1)
 texture_filter = 1
 layout_mode = 0
@@ -135,7 +137,7 @@ patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Text" type="Label" parent="Main/Buttons/ButtonSettings/Contents"]
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonSettings/Contents"]
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 24.0
@@ -147,7 +149,7 @@ text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonQuit" type="Button" parent="Main/Buttons" groups=["buttons"]]
+[node name="ButtonQuit" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_left = 32.0
@@ -155,13 +157,13 @@ offset_top = 64.0
 offset_right = 96.0
 offset_bottom = 88.0
 
-[node name="Contents" type="Control" parent="Main/Buttons/ButtonQuit"]
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonQuit"]
 anchors_preset = 0
 offset_right = 64.0
 offset_bottom = 24.0
 mouse_filter = 2
 
-[node name="Background" type="NinePatchRect" parent="Main/Buttons/ButtonQuit/Contents"]
+[node name="Background" type="NinePatchRect" parent="Menus/Main/Buttons/ButtonQuit/Contents"]
 self_modulate = Color(0.9, 0.45, 0.45, 1)
 texture_filter = 1
 layout_mode = 0
@@ -173,7 +175,7 @@ patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Text" type="Label" parent="Main/Buttons/ButtonQuit/Contents"]
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonQuit/Contents"]
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 24.0
@@ -186,7 +188,7 @@ text = "Quit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonCredits" type="Button" parent="Main/Buttons" groups=["buttons"]]
+[node name="ButtonCredits" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_left = 168.0
@@ -194,13 +196,13 @@ offset_top = 80.0
 offset_right = 224.0
 offset_bottom = 96.0
 
-[node name="Contents" type="Control" parent="Main/Buttons/ButtonCredits"]
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonCredits"]
 anchors_preset = 0
 offset_right = 56.0
 offset_bottom = 16.0
 mouse_filter = 2
 
-[node name="Text" type="Label" parent="Main/Buttons/ButtonCredits/Contents"]
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonCredits/Contents"]
 layout_mode = 0
 offset_left = -8.0
 offset_right = 48.0
@@ -213,7 +215,42 @@ text = "Credits"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Credits" type="Node2D" parent="Menus"]
+position = Vector2(320, 0)
+
+[node name="CameraEditorReference" type="Camera2D" parent="Menus/Credits"]
+enabled = false
+
+[node name="ButtonBack" type="Button" parent="Menus/Credits" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -152.0
+offset_top = 72.0
+offset_right = -120.0
+offset_bottom = 88.0
+
+[node name="Contents" type="Control" parent="Menus/Credits/ButtonBack"]
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="Menus/Credits/ButtonBack/Contents"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="AnimationController" type="Node" parent="."]
 script = ExtResource("8_6ois2")
+do_title_animation = true
+title_node_path = NodePath("../Menus/Main/Title")
 
-[connection signal="pressed" from="Main/Buttons/ButtonPlay" to="Main" method="_on_button_play_pressed"]
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonPlay" to="." method="_on_button_play_pressed"]
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonCredits" to="." method="_on_button_credits_pressed"]
+[connection signal="pressed" from="Menus/Credits/ButtonBack" to="." method="_on_button_back_pressed"]

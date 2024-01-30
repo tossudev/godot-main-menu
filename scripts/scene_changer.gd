@@ -2,13 +2,13 @@ extends CanvasLayer
 
 const TRANSITION_TIME: float = 1.0
 
+var transition_playing: bool = false
+
 # Node References
 @onready var transition_nodes: Array = [
 	$TransitionIn,
 	$TransitionOut
 ] 
-
-var transition_playing: bool = false
 
 
 # Change scene to filepath, do transition animation.

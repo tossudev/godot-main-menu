@@ -1,5 +1,8 @@
 extends Node
 
+@export var do_title_animation: bool = false
+@export var title_node_path: NodePath
+
 const GROUP_BUTTONS: String = "buttons"
 
 # Values for button animations
@@ -11,14 +14,34 @@ const ANIM_VALUES_BUTTON: Dictionary = {
 	"rotation_pressed" : 0.1,
 	"time" : 1.2,
 }
+const ANIM_VALUES_TITLE: Dictionary = {
+	"scale_time" : 1.75,			# Time multiplier for animation
+	"scale_amount" : 0.1,			# Scale multiplier for animation
+	"scale_amount_offset" : 1.0,	# Scale offset from 0.0
+	
+	"rotation_time" : 2.0,			# Time multiplier for animation
+	"rotation_amount" : 0.08,		# Rotation multiplier for animation
+}
 
 # Object references
 var button_nodes: Array = []
+var title_node: Object
+
+var time_elapsed: float = 0.0
 
 
 func _ready() -> void:
 	_get_node_references()
 	_connect_signals()
+	
+	if do_title_animation:
+		title_node = get_node(title_node_path)
+
+
+func _process(delta):
+	time_elapsed += delta
+	if do_title_animation:
+		_do_title_spin()
 
 
 # Get all node references
@@ -45,6 +68,20 @@ func _connect_signals() -> void:
 				_on_button_down.bind(button_node))
 		button_node.button_up.connect(
 				_on_button_up.bind(button_node))
+
+
+func _do_title_spin() -> void:
+	var title_scale: float = (
+		cos(time_elapsed * ANIM_VALUES_TITLE.scale_time
+		) * ANIM_VALUES_TITLE.scale_amount
+		) + ANIM_VALUES_TITLE.scale_amount_offset
+	
+	var title_rotation: float = cos(
+		time_elapsed * ANIM_VALUES_TITLE.rotation_time
+		) * ANIM_VALUES_TITLE.rotation_amount
+	
+	title_node.scale = Vector2(title_scale, title_scale)
+	title_node.rotation = title_rotation
 
 
 # Object animation creates a tween between from and to using the type prompted.
