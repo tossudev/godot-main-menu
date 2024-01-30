@@ -34,7 +34,7 @@ func _correct_node_pivot_offset(node: Object) -> void:
 	node.set_pivot_offset(pivot_offset)
 
 
-# Connect signals for buttons, eg.
+# Connect signals for buttons.
 func _connect_signals() -> void:
 	for button_node: Object in button_nodes:
 		button_node.mouse_entered.connect(
@@ -57,7 +57,7 @@ func do_object_animation(
 		speed: float):
 	
 	# If we change scenes when pressing button, skip animations.
-	if get_tree() == null:
+	if SceneChanger.transition_playing:
 		return
 	
 	# Create and play the animation.

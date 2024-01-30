@@ -6,12 +6,12 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsth2"]
 shader = ExtResource("1_mka6u")
 shader_parameter/progress = 0.0
-shader_parameter/diamondPixelSize = 32.0
+shader_parameter/diamondPixelSize = 64.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kd86w"]
 shader = ExtResource("1_mka6u")
 shader_parameter/progress = 0.0
-shader_parameter/diamondPixelSize = 32.0
+shader_parameter/diamondPixelSize = 64.0
 
 [node name="SceneChanger" type="CanvasLayer"]
 script = ExtResource("1_gkdit")
