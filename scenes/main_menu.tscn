@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://w8fhk5w0x1xg"]
+[gd_scene load_steps=17 format=3 uid="uid://w8fhk5w0x1xg"]
 
 [ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_ek0oj"]
 [ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
@@ -10,6 +10,15 @@
 [ext_resource type="FontFile" uid="uid://ceksqams405ke" path="res://assets/font/Pixellari.ttf" id="7_k8eq1"]
 [ext_resource type="Script" path="res://scripts/main_menu/animation_controller.gd" id="8_6ois2"]
 [ext_resource type="Script" path="res://scripts/main_menu/credits_meta.gd" id="9_2k6x0"]
+[ext_resource type="Script" path="res://scripts/settings.gd" id="10_xpcx3"]
+[ext_resource type="Texture2D" uid="uid://dudj30yft3otl" path="res://assets/textures/ui/ui_slider_full.png" id="11_o82qy"]
+[ext_resource type="Texture2D" uid="uid://csveq48ogxbuu" path="res://assets/textures/ui/ui_slider_empty.png" id="11_t60n8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r38uj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0l7ru"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d86kj"]
 
 [node name="Menu" type="Node2D"]
 script = ExtResource("1_ek0oj")
@@ -224,9 +233,9 @@ enabled = false
 
 [node name="ButtonBack" type="Button" parent="Menus/Credits" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
-offset_left = -152.0
+offset_left = 120.0
 offset_top = 72.0
-offset_right = -120.0
+offset_right = 152.0
 offset_bottom = 88.0
 
 [node name="Contents" type="Control" parent="Menus/Credits/ButtonBack"]
@@ -277,13 +286,107 @@ Github repo:
 meta_underlined = false
 script = ExtResource("9_2k6x0")
 
+[node name="Settings" type="Node2D" parent="Menus"]
+position = Vector2(-320, 0)
+
+[node name="CameraEditorReference" type="Camera2D" parent="Menus/Settings"]
+enabled = false
+
+[node name="ButtonBack" type="Button" parent="Menus/Settings" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 120.0
+offset_top = 72.0
+offset_right = 152.0
+offset_bottom = 88.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/ButtonBack"]
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="Menus/Settings/ButtonBack/Contents"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="Control" parent="Menus/Settings"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -152.0
+offset_top = -80.0
+offset_right = 152.0
+offset_bottom = 64.0
+script = ExtResource("10_xpcx3")
+
+[node name="VolumeMaster" type="Control" parent="Menus/Settings/Settings"]
+anchors_preset = 0
+offset_left = 104.0
+offset_top = 64.0
+offset_right = 200.0
+offset_bottom = 88.0
+
+[node name="SliderBackground" type="TextureProgressBar" parent="Menus/Settings/Settings/VolumeMaster"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 8.0
+offset_right = 96.0
+offset_bottom = 24.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 8
+stretch_margin_right = 4
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_t60n8")
+texture_progress = ExtResource("11_o82qy")
+
+[node name="Slider" type="HSlider" parent="Menus/Settings/Settings/VolumeMaster"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 8.0
+offset_right = 96.0
+offset_bottom = 24.0
+theme_override_icons/grabber = ExtResource("6_rq5mk")
+theme_override_icons/grabber_highlight = ExtResource("6_rq5mk")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_r38uj")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_0l7ru")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_d86kj")
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/VolumeMaster"]
+offset_top = -8.0
+offset_right = 96.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Master Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="AnimationController" type="Node" parent="."]
 script = ExtResource("8_6ois2")
 do_title_animation = true
 title_node_path = NodePath("../Menus/Main/Title")
 
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonPlay" to="." method="_on_button_play_pressed"]
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonSettings" to="." method="_on_button_settings_pressed"]
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonQuit" to="." method="_on_button_quit_pressed"]
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonCredits" to="." method="_on_button_credits_pressed"]
 [connection signal="pressed" from="Menus/Credits/ButtonBack" to="." method="_on_button_back_pressed"]
 [connection signal="meta_clicked" from="Menus/Credits/TextCredits" to="Menus/Credits/TextCredits" method="_on_meta_clicked"]
+[connection signal="pressed" from="Menus/Settings/ButtonBack" to="." method="_on_button_back_pressed"]
+[connection signal="value_changed" from="Menus/Settings/Settings/VolumeMaster/Slider" to="Menus/Settings/Settings" method="_on_slider_value_changed"]

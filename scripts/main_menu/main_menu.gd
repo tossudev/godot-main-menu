@@ -17,6 +17,8 @@ func move_camera(to: String) -> void:
 			new_menu = $Menus/Main
 		"Credits":
 			new_menu = $Menus/Credits
+		"Settings":
+			new_menu = $Menus/Settings
 	
 	new_menu_position = new_menu.position
 	
@@ -39,6 +41,10 @@ func _transition_camera(pos: Vector2) -> void:
 
 func _on_button_play_pressed():
 	SceneChanger.change_scene("res://scenes/main_menu.tscn")
+
+
+func _on_button_settings_pressed():
+	move_camera("Settings")
 
 
 func _on_button_credits_pressed():
