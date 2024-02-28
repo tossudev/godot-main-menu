@@ -4,9 +4,7 @@ Using Godot 4.2.1.stable
 
 # To-do
 ### Settings  
-- sliders for different audio channels  
-- toggle fullscreen  
-- keybinds  
+- keybind functionality  
 
 
 # Additional credits
