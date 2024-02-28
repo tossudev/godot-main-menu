@@ -1,8 +1,11 @@
 extends Control
 
 const KEYBINDS_FILEPATH: String = "user://keybinds.ini"
+const DEFAULT_VOLUME: float = 0.5
 
-@onready var master_volume_bg = $VolumeMaster/SliderBackground
+@onready var volume_node_master = $VolumeMaster
+@onready var volume_node_music = $VolumeMusic
+@onready var volume_node_sfx = $VolumeSfx
 @onready var keybind_settings_node: Control = %KeybindSettings
 
 var fullscreen: bool = false
@@ -14,6 +17,17 @@ var keybinds: Dictionary = {
 
 
 func _ready():
+	volume_node_master.get_node("Master").set_value(DEFAULT_VOLUME)
+	volume_node_master.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
+	volume_node_music.get_node("Music").set_value(DEFAULT_VOLUME)
+	volume_node_music.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
+	volume_node_sfx.get_node("Sfx").set_value(DEFAULT_VOLUME)
+	volume_node_sfx.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
+	
+	AudioServer.set_bus_volume_db(0, convert_audio_value(DEFAULT_VOLUME))
+	AudioServer.set_bus_volume_db(1, convert_audio_value(DEFAULT_VOLUME))
+	AudioServer.set_bus_volume_db(2, convert_audio_value(DEFAULT_VOLUME))
+	
 	var keybinds_file = ConfigFile.new()
 	if keybinds_file.load(KEYBINDS_FILEPATH) == OK:
 		for key in keybinds_file.get_section_keys("keybinds"):
@@ -60,11 +74,6 @@ func update_ui() -> void:
 		checkbox.set_visible(toggle_button_node.is_pressed())
 
 
-func _on_slider_value_changed(value):
-	master_volume_bg.set_value(value)
-	AudioServer.set_bus_volume_db(0, convert_audio_value(value))
-
-
 func convert_audio_value(value: float):
 	# Use a logarithmic equation to make volume slider stable
 	value = log(value) * 17.3123
@@ -92,3 +101,18 @@ func _on_button_keybinds_pressed():
 	else:
 		show()
 		keybind_settings_node.hide()
+
+
+func _on_master_value_changed(value):
+	volume_node_master.get_node("SliderBackground").set_value(value)
+	AudioServer.set_bus_volume_db(0, convert_audio_value(value))
+
+
+func _on_music_value_changed(value):
+	volume_node_music.get_node("SliderBackground").set_value(value)
+	AudioServer.set_bus_volume_db(1, convert_audio_value(value))
+
+
+func _on_sfx_value_changed(value):
+	volume_node_sfx.get_node("SliderBackground").set_value(value)
+	AudioServer.set_bus_volume_db(2, convert_audio_value(value))

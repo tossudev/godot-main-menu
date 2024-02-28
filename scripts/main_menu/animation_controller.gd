@@ -130,6 +130,9 @@ func _on_button_mouse_exited(button_node: Object):
 
 
 func _on_button_down(button_node: Object):
+	%SfxPlayer.set_stream(load("res://assets/sound/click_start.wav"))
+	%SfxPlayer.play()
+	
 	do_object_animation(
 		"scale",
 		button_node,
@@ -147,6 +150,9 @@ func _on_button_down(button_node: Object):
 
 
 func _on_button_up(button_node: Object):
+	%SfxPlayer.set_stream(load("res://assets/sound/click_end.wav"))
+	%SfxPlayer.play()
+	
 	do_object_animation(
 		"scale",
 		button_node,

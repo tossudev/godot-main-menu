@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://w8fhk5w0x1xg"]
+[gd_scene load_steps=20 format=3 uid="uid://w8fhk5w0x1xg"]
 
 [ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_ek0oj"]
 [ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://csveq48ogxbuu" path="res://assets/textures/ui/ui_slider_empty.png" id="11_t60n8"]
 [ext_resource type="Texture2D" uid="uid://ccq712s810dv6" path="res://assets/textures/ui/ui_checkmark.png" id="13_1ajwr"]
 [ext_resource type="Texture2D" uid="uid://esdh0obh8xs6" path="res://assets/textures/ui/ui_trash.png" id="14_wi402"]
+[ext_resource type="AudioStream" uid="uid://dsfcgns0c5d78" path="res://assets/sound/song.mp3" id="16_4lhqc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r38uj"]
 
@@ -357,9 +358,9 @@ script = ExtResource("10_xpcx3")
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = 104.0
-offset_top = 32.0
+offset_top = 8.0
 offset_right = 200.0
-offset_bottom = 56.0
+offset_bottom = 32.0
 
 [node name="Contents" type="Control" parent="Menus/Settings/Settings/ButtonFullscreen"]
 anchors_preset = 0
@@ -401,16 +402,16 @@ stretch_mode = 3
 [node name="VolumeMaster" type="Control" parent="Menus/Settings/Settings"]
 anchors_preset = 0
 offset_left = 104.0
-offset_top = 64.0
+offset_top = 40.0
 offset_right = 200.0
-offset_bottom = 88.0
+offset_bottom = 64.0
 
 [node name="SliderBackground" type="TextureProgressBar" parent="Menus/Settings/Settings/VolumeMaster"]
 texture_filter = 1
 layout_mode = 0
-offset_top = 8.0
+offset_top = 4.0
 offset_right = 96.0
-offset_bottom = 24.0
+offset_bottom = 20.0
 max_value = 1.0
 step = 0.01
 value = 1.0
@@ -422,12 +423,12 @@ stretch_margin_bottom = 8
 texture_under = ExtResource("11_t60n8")
 texture_progress = ExtResource("11_o82qy")
 
-[node name="Slider" type="HSlider" parent="Menus/Settings/Settings/VolumeMaster"]
+[node name="Master" type="HSlider" parent="Menus/Settings/Settings/VolumeMaster"]
 texture_filter = 1
 layout_mode = 0
-offset_top = 8.0
+offset_top = 4.0
 offset_right = 96.0
-offset_bottom = 24.0
+offset_bottom = 20.0
 theme_override_icons/grabber = ExtResource("6_rq5mk")
 theme_override_icons/grabber_highlight = ExtResource("6_rq5mk")
 theme_override_styles/slider = SubResource("StyleBoxEmpty_r38uj")
@@ -450,12 +451,116 @@ text = "Master Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="VolumeMusic" type="Control" parent="Menus/Settings/Settings"]
+anchors_preset = 0
+offset_left = 104.0
+offset_top = 72.0
+offset_right = 200.0
+offset_bottom = 96.0
+
+[node name="SliderBackground" type="TextureProgressBar" parent="Menus/Settings/Settings/VolumeMusic"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 8
+stretch_margin_right = 4
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_t60n8")
+texture_progress = ExtResource("11_o82qy")
+
+[node name="Music" type="HSlider" parent="Menus/Settings/Settings/VolumeMusic"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+theme_override_icons/grabber = ExtResource("6_rq5mk")
+theme_override_icons/grabber_highlight = ExtResource("6_rq5mk")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_r38uj")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_0l7ru")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_d86kj")
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/VolumeMusic"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 96.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Music Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeSfx" type="Control" parent="Menus/Settings/Settings"]
+anchors_preset = 0
+offset_left = 104.0
+offset_top = 104.0
+offset_right = 200.0
+offset_bottom = 128.0
+
+[node name="SliderBackground" type="TextureProgressBar" parent="Menus/Settings/Settings/VolumeSfx"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 8
+stretch_margin_right = 4
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_t60n8")
+texture_progress = ExtResource("11_o82qy")
+
+[node name="Sfx" type="HSlider" parent="Menus/Settings/Settings/VolumeSfx"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+theme_override_icons/grabber = ExtResource("6_rq5mk")
+theme_override_icons/grabber_highlight = ExtResource("6_rq5mk")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_r38uj")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_0l7ru")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_d86kj")
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/VolumeSfx"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 96.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Effects Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ButtonKeybinds" type="Button" parent="Menus/Settings/Settings" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 120.0
-offset_top = 104.0
+offset_top = 136.0
 offset_right = 184.0
-offset_bottom = 120.0
+offset_bottom = 152.0
 
 [node name="Contents" type="Control" parent="Menus/Settings/Settings/ButtonKeybinds"]
 anchors_preset = 0
@@ -620,6 +725,15 @@ script = ExtResource("8_6ois2")
 do_title_animation = true
 title_node_path = NodePath("../Menus/Main/Title")
 
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_4lhqc")
+autoplay = true
+bus = &"Music"
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+bus = &"Sfx"
+
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonPlay" to="." method="_on_button_play_pressed"]
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonSettings" to="." method="_on_button_settings_pressed"]
 [connection signal="pressed" from="Menus/Main/Buttons/ButtonQuit" to="." method="_on_button_quit_pressed"]
@@ -628,8 +742,8 @@ title_node_path = NodePath("../Menus/Main/Title")
 [connection signal="meta_clicked" from="Menus/Credits/TextCredits" to="Menus/Credits/TextCredits" method="_on_meta_clicked"]
 [connection signal="pressed" from="Menus/Settings/ButtonBack" to="." method="_on_button_back_pressed"]
 [connection signal="pressed" from="Menus/Settings/Settings/ButtonFullscreen" to="Menus/Settings/Settings" method="_on_button_fullscreen_pressed"]
-[connection signal="value_changed" from="Menus/Settings/Settings/VolumeMaster/Slider" to="Menus/Settings/Settings" method="_on_slider_value_changed"]
+[connection signal="value_changed" from="Menus/Settings/Settings/VolumeMaster/Master" to="Menus/Settings/Settings" method="_on_master_value_changed"]
+[connection signal="value_changed" from="Menus/Settings/Settings/VolumeMusic/Music" to="Menus/Settings/Settings" method="_on_music_value_changed"]
+[connection signal="value_changed" from="Menus/Settings/Settings/VolumeSfx/Sfx" to="Menus/Settings/Settings" method="_on_sfx_value_changed"]
 [connection signal="pressed" from="Menus/Settings/Settings/ButtonKeybinds" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
-[connection signal="pressed" from="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonRemoveKey" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
-[connection signal="pressed" from="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonChangeKey" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
 [connection signal="pressed" from="Menus/Settings/KeybindSettings/ButtonCloseKeybinds" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
