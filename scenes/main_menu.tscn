@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://w8fhk5w0x1xg"]
+[gd_scene load_steps=19 format=3 uid="uid://w8fhk5w0x1xg"]
 
 [ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_ek0oj"]
 [ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://scripts/settings.gd" id="10_xpcx3"]
 [ext_resource type="Texture2D" uid="uid://dudj30yft3otl" path="res://assets/textures/ui/ui_slider_full.png" id="11_o82qy"]
 [ext_resource type="Texture2D" uid="uid://csveq48ogxbuu" path="res://assets/textures/ui/ui_slider_empty.png" id="11_t60n8"]
+[ext_resource type="Texture2D" uid="uid://ccq712s810dv6" path="res://assets/textures/ui/ui_checkmark.png" id="13_1ajwr"]
+[ext_resource type="Texture2D" uid="uid://esdh0obh8xs6" path="res://assets/textures/ui/ui_trash.png" id="14_wi402"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r38uj"]
 
@@ -234,15 +236,27 @@ enabled = false
 [node name="ButtonBack" type="Button" parent="Menus/Credits" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 120.0
-offset_top = 72.0
+offset_top = 68.0
 offset_right = 152.0
-offset_bottom = 88.0
+offset_bottom = 84.0
 
 [node name="Contents" type="Control" parent="Menus/Credits/ButtonBack"]
 anchors_preset = 0
 offset_right = 32.0
 offset_bottom = 16.0
 mouse_filter = 2
+
+[node name="SpriteBackground" type="NinePatchRect" parent="Menus/Credits/ButtonBack/Contents"]
+texture_filter = 1
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 34.0
+offset_bottom = 18.0
+texture = ExtResource("6_rq5mk")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
 
 [node name="Text" type="Label" parent="Menus/Credits/ButtonBack/Contents"]
 layout_mode = 0
@@ -295,15 +309,27 @@ enabled = false
 [node name="ButtonBack" type="Button" parent="Menus/Settings" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 120.0
-offset_top = 72.0
+offset_top = 68.0
 offset_right = 152.0
-offset_bottom = 88.0
+offset_bottom = 84.0
 
 [node name="Contents" type="Control" parent="Menus/Settings/ButtonBack"]
 anchors_preset = 0
 offset_right = 32.0
 offset_bottom = 16.0
 mouse_filter = 2
+
+[node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/ButtonBack/Contents"]
+texture_filter = 1
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 34.0
+offset_bottom = 18.0
+texture = ExtResource("6_rq5mk")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
 
 [node name="Text" type="Label" parent="Menus/Settings/ButtonBack/Contents"]
 layout_mode = 0
@@ -323,8 +349,54 @@ anchors_preset = 0
 offset_left = -152.0
 offset_top = -80.0
 offset_right = 152.0
-offset_bottom = 64.0
+offset_bottom = 80.0
+mouse_filter = 2
 script = ExtResource("10_xpcx3")
+
+[node name="ButtonFullscreen" type="CheckButton" parent="Menus/Settings/Settings" groups=["buttons", "togglebuttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 104.0
+offset_top = 32.0
+offset_right = 200.0
+offset_bottom = 56.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/Settings/ButtonFullscreen"]
+anchors_preset = 0
+offset_right = 96.0
+offset_bottom = 24.0
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/ButtonFullscreen/Contents"]
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 24.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Fullscreen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CheckBox" type="TextureRect" parent="Menus/Settings/Settings/ButtonFullscreen/Contents"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 72.0
+offset_right = 96.0
+offset_bottom = 24.0
+texture = ExtResource("6_rq5mk")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Checked" type="TextureRect" parent="Menus/Settings/Settings/ButtonFullscreen/Contents/CheckBox"]
+visible = false
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("13_1ajwr")
+expand_mode = 1
+stretch_mode = 3
 
 [node name="VolumeMaster" type="Control" parent="Menus/Settings/Settings"]
 anchors_preset = 0
@@ -366,6 +438,7 @@ step = 0.01
 value = 1.0
 
 [node name="Text" type="Label" parent="Menus/Settings/Settings/VolumeMaster"]
+layout_mode = 0
 offset_top = -8.0
 offset_right = 96.0
 offset_bottom = 8.0
@@ -374,6 +447,171 @@ theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("7_k8eq1")
 theme_override_font_sizes/font_size = 12
 text = "Master Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonKeybinds" type="Button" parent="Menus/Settings/Settings" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 120.0
+offset_top = 104.0
+offset_right = 184.0
+offset_bottom = 120.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/Settings/ButtonKeybinds"]
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/Settings/ButtonKeybinds/Contents"]
+texture_filter = 1
+offset_top = -2.0
+offset_right = 64.0
+offset_bottom = 18.0
+texture = ExtResource("6_rq5mk")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/ButtonKeybinds/Contents"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Keybinds"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeybindSettings" type="Control" parent="Menus/Settings"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -160.0
+offset_top = -88.0
+offset_right = 160.0
+offset_bottom = 88.0
+mouse_filter = 2
+
+[node name="Keys" type="VBoxContainer" parent="Menus/Settings/KeybindSettings"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 168.0
+mouse_filter = 2
+theme_override_constants/separation = 22
+
+[node name="DummyKey" type="Control" parent="Menus/Settings/KeybindSettings/Keys"]
+visible = false
+layout_mode = 2
+
+[node name="KeyNameText" type="Label" parent="Menus/Settings/KeybindSettings/Keys/DummyKey"]
+offset_left = -8.0
+offset_right = 72.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "Action Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonRemoveKey" type="Button" parent="Menus/Settings/KeybindSettings/Keys/DummyKey" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 160.0
+offset_right = 176.0
+offset_bottom = 16.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonRemoveKey"]
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="SpriteBackground" type="TextureRect" parent="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonRemoveKey/Contents"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 17.0
+offset_bottom = 18.0
+texture = ExtResource("14_wi402")
+
+[node name="ButtonChangeKey" type="Button" parent="Menus/Settings/KeybindSettings/Keys/DummyKey" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 72.0
+offset_right = 152.0
+offset_bottom = 16.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonChangeKey"]
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonChangeKey/Contents"]
+texture_filter = 1
+layout_mode = 0
+offset_top = -2.0
+offset_right = 80.0
+offset_bottom = 18.0
+texture = ExtResource("6_rq5mk")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Text" type="Label" parent="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonChangeKey/Contents"]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 8
+text = "InputKey"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCloseKeybinds" type="Button" parent="Menus/Settings/KeybindSettings" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 144.0
+offset_top = 152.0
+offset_right = 176.0
+offset_bottom = 168.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/KeybindSettings/ButtonCloseKeybinds"]
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/KeybindSettings/ButtonCloseKeybinds/Contents"]
+texture_filter = 1
+offset_top = -2.0
+offset_right = 32.0
+offset_bottom = 18.0
+texture = ExtResource("6_rq5mk")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Text" type="Label" parent="Menus/Settings/KeybindSettings/ButtonCloseKeybinds/Contents"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_k8eq1")
+theme_override_font_sizes/font_size = 12
+text = "OK"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -389,4 +627,9 @@ title_node_path = NodePath("../Menus/Main/Title")
 [connection signal="pressed" from="Menus/Credits/ButtonBack" to="." method="_on_button_back_pressed"]
 [connection signal="meta_clicked" from="Menus/Credits/TextCredits" to="Menus/Credits/TextCredits" method="_on_meta_clicked"]
 [connection signal="pressed" from="Menus/Settings/ButtonBack" to="." method="_on_button_back_pressed"]
+[connection signal="pressed" from="Menus/Settings/Settings/ButtonFullscreen" to="Menus/Settings/Settings" method="_on_button_fullscreen_pressed"]
 [connection signal="value_changed" from="Menus/Settings/Settings/VolumeMaster/Slider" to="Menus/Settings/Settings" method="_on_slider_value_changed"]
+[connection signal="pressed" from="Menus/Settings/Settings/ButtonKeybinds" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
+[connection signal="pressed" from="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonRemoveKey" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
+[connection signal="pressed" from="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonChangeKey" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
+[connection signal="pressed" from="Menus/Settings/KeybindSettings/ButtonCloseKeybinds" to="Menus/Settings/Settings" method="_on_button_keybinds_pressed"]
