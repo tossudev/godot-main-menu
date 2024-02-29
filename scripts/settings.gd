@@ -1,5 +1,7 @@
 extends Control
 
+@export var save_settings: bool = true
+
 const SETTINGS_FILEPATH: String = "user://settings.cfg"
 const DEFAULT_VOLUME: float = 0.8
 
@@ -8,8 +10,13 @@ const DEFAULT_VOLUME: float = 0.8
 @onready var volume_node_sfx = $VolumeSfx
 @onready var keybind_settings_node: Control = %KeybindSettings
 
-var is_fullscreen: bool = false
 var is_keybinds_open: bool = false
+
+#region Saved variables
+var is_fullscreen: bool = false
+var audio_master: float = 0.0
+var audio_music: float = 0.0
+var audio_sfx: float = 0.0
 
 var keybinds: Dictionary = {
 	"move_up" : [],
@@ -18,6 +25,7 @@ var keybinds: Dictionary = {
 	"move_right" : [],
 	"action" : [],
 }
+#endregion
 
 var keybind_names: Array = [
 	"Move up",
@@ -33,6 +41,22 @@ func _ready():
 
 
 func update_ui() -> void:
+	# Set UI audio values correctly.
+	volume_node_master.get_node("Master").set_value(audio_master)
+	volume_node_master.get_node("SliderBackground").set_value(audio_master)
+	volume_node_music.get_node("Music").set_value(audio_music)
+	volume_node_music.get_node("SliderBackground").set_value(audio_music)
+	volume_node_sfx.get_node("Sfx").set_value(audio_sfx)
+	volume_node_sfx.get_node("SliderBackground").set_value(audio_sfx)
+	
+	# Update window mode
+	if is_fullscreen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	$ButtonFullscreen.set_pressed(is_fullscreen)
+	
+	# Toggle visibility on checkboxes that are checked.
 	for toggle_button_node in get_tree().get_nodes_in_group("togglebuttons"):
 		var checkbox: TextureRect = toggle_button_node.get_node(
 			"Contents/CheckBox/Checked")
@@ -41,36 +65,30 @@ func update_ui() -> void:
 
 
 func convert_audio_value(value: float):
-	# Use a logarithmic equation to make volume slider stable
+	# Use a logarithmic equation to make volume slider stable.
 	value = log(value) * 17.3123
 	return value
 
 
 func _init_settings() -> void:
-	var settings_file = ConfigFile.new()
+	var settings_file: ConfigFile = ConfigFile.new()
 	var can_load_settings = settings_file.load(SETTINGS_FILEPATH)
 	
-	if can_load_settings != OK:
+	# If there is no settings file or saving is disabled, use default settings.
+	if can_load_settings != OK || !save_settings:
 		_use_default_settings()
 		return
 	
-	for key in settings_file.get_section_keys("keybinds"):
-		var key_value = settings_file.get_value("keybinds", key)
-		
-		if key_value[1] != null:
-			keybinds[key] = key_value
-	
+	# Load settings from disk.
+	_load_settings(settings_file)
 	_set_keybinds_ui()
 
 
 func _use_default_settings() -> void:
 	# Set default volume displays
-	volume_node_master.get_node("Master").set_value(DEFAULT_VOLUME)
-	volume_node_master.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
-	volume_node_music.get_node("Music").set_value(DEFAULT_VOLUME)
-	volume_node_music.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
-	volume_node_sfx.get_node("Sfx").set_value(DEFAULT_VOLUME)
-	volume_node_sfx.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
+	audio_master = DEFAULT_VOLUME
+	audio_music = DEFAULT_VOLUME
+	audio_sfx = DEFAULT_VOLUME
 	
 	# Set default volumes
 	AudioServer.set_bus_volume_db(0, convert_audio_value(DEFAULT_VOLUME))
@@ -88,14 +106,19 @@ func _use_default_settings() -> void:
 	
 	_save_settings()
 	_set_keybinds_ui()
+	update_ui()
 
 
 func _save_settings() -> void:
+	if !save_settings:
+		return
+	
 	var settings_file = ConfigFile.new()
 	
-	var audio_master: float = volume_node_master.get_node("Master").get_value()
-	var audio_music: float = volume_node_music.get_node("Music").get_value()
-	var audio_sfx: float = volume_node_sfx.get_node("Sfx").get_value()
+	# Save audio values
+	audio_master = volume_node_master.get_node("Master").get_value()
+	audio_music = volume_node_music.get_node("Music").get_value()
+	audio_sfx = volume_node_sfx.get_node("Sfx").get_value()
 	
 	settings_file.set_value("audio", "master", audio_master)
 	settings_file.set_value("audio", "music", audio_music)
@@ -103,10 +126,36 @@ func _save_settings() -> void:
 	
 	settings_file.set_value("screen", "is_fullscreen", is_fullscreen)
 	
+	# Save keybinds
 	for keybind in keybinds:
 		settings_file.set_value("keybinds", keybind, keybinds[keybind])
 	
 	settings_file.save(SETTINGS_FILEPATH)
+
+
+func _load_settings(settings_file: ConfigFile) -> void:
+	if !save_settings:
+		return
+	
+	# Load audio values
+	audio_master = settings_file.get_value("audio", "master")
+	audio_music = settings_file.get_value("audio", "music")
+	audio_sfx = settings_file.get_value("audio", "sfx")
+	
+	volume_node_master.get_node("Master").set_value(audio_master)
+	volume_node_music.get_node("Music").set_value(audio_music)
+	volume_node_sfx.get_node("Sfx").set_value(audio_sfx)
+	
+	is_fullscreen = settings_file.get_value("screen", "is_fullscreen")
+	
+	# Load keybinds
+	for key in settings_file.get_section_keys("keybinds"):
+		var key_value = settings_file.get_value("keybinds", key)
+		
+		if key_value != null:
+			keybinds[key] = key_value
+	
+	update_ui()
 
 
 func _set_keybinds_ui() -> void:
@@ -115,12 +164,17 @@ func _set_keybinds_ui() -> void:
 	var key_index: int = 0
 	for keybind in keybinds:
 		for keycode: int in keybinds[keybind]:
+			# Get action name
 			var display_text: String = keybind_names[key_index]
+			
+			# Get keycodes for each action in readable formats.
 			var keycode_as_string: String = OS.get_keycode_string(keycode)
 			
+			# Create a duplicate of the UI key element for each action in memory.
 			if keycode != null:
 				var new_key_node = key_node.duplicate()
 				
+				# Apply values to UI elements
 				keybind_settings_node.get_node("Keys").add_child(new_key_node)
 				new_key_node.get_node("KeyNameText").set_text(display_text)
 				new_key_node.get_node("ButtonChangeKey/Contents/Text").set_text(keycode_as_string)
@@ -131,11 +185,6 @@ func _set_keybinds_ui() -> void:
 
 func _on_button_fullscreen_pressed():
 	is_fullscreen = !is_fullscreen
-	
-	if is_fullscreen:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	
 	update_ui()
 
@@ -165,3 +214,7 @@ func _on_music_value_changed(value):
 func _on_sfx_value_changed(value):
 	volume_node_sfx.get_node("SliderBackground").set_value(value)
 	AudioServer.set_bus_volume_db(2, convert_audio_value(value))
+
+
+func _on_button_back_pressed():
+	_save_settings()

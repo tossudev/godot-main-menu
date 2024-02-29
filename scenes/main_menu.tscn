@@ -750,6 +750,7 @@ bus = &"Sfx"
 [connection signal="pressed" from="Menus/Credits/ButtonBack" to="." method="_on_button_back_pressed"]
 [connection signal="meta_clicked" from="Menus/Credits/TextCredits" to="Menus/Credits/TextCredits" method="_on_meta_clicked"]
 [connection signal="pressed" from="Menus/Settings/ButtonBack" to="." method="_on_button_back_pressed"]
+[connection signal="pressed" from="Menus/Settings/ButtonBack" to="Menus/Settings/Settings" method="_on_button_back_pressed"]
 [connection signal="pressed" from="Menus/Settings/Settings/ButtonFullscreen" to="Menus/Settings/Settings" method="_on_button_fullscreen_pressed"]
 [connection signal="value_changed" from="Menus/Settings/Settings/VolumeMaster/Master" to="Menus/Settings/Settings" method="_on_master_value_changed"]
 [connection signal="value_changed" from="Menus/Settings/Settings/VolumeMusic/Music" to="Menus/Settings/Settings" method="_on_music_value_changed"]
