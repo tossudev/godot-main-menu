@@ -1,69 +1,35 @@
 extends Control
 
-const KEYBINDS_FILEPATH: String = "user://keybinds.ini"
-const DEFAULT_VOLUME: float = 0.5
+const SETTINGS_FILEPATH: String = "user://settings.cfg"
+const DEFAULT_VOLUME: float = 0.8
 
 @onready var volume_node_master = $VolumeMaster
 @onready var volume_node_music = $VolumeMusic
 @onready var volume_node_sfx = $VolumeSfx
 @onready var keybind_settings_node: Control = %KeybindSettings
 
-var fullscreen: bool = false
-var keybinds_open: bool = false
+var is_fullscreen: bool = false
+var is_keybinds_open: bool = false
 
 var keybinds: Dictionary = {
-	"move_up" : ["Move up", 4194320],
+	"move_up" : [],
+	"move_down" : [],
+	"move_left" : [],
+	"move_right" : [],
+	"action" : [],
 }
+
+var keybind_names: Array = [
+	"Move up",
+	"Move down",
+	"Move left",
+	"Move right",
+	"Action",
+]
 
 
 func _ready():
-	volume_node_master.get_node("Master").set_value(DEFAULT_VOLUME)
-	volume_node_master.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
-	volume_node_music.get_node("Music").set_value(DEFAULT_VOLUME)
-	volume_node_music.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
-	volume_node_sfx.get_node("Sfx").set_value(DEFAULT_VOLUME)
-	volume_node_sfx.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
-	
-	AudioServer.set_bus_volume_db(0, convert_audio_value(DEFAULT_VOLUME))
-	AudioServer.set_bus_volume_db(1, convert_audio_value(DEFAULT_VOLUME))
-	AudioServer.set_bus_volume_db(2, convert_audio_value(DEFAULT_VOLUME))
-	
-	var keybinds_file = ConfigFile.new()
-	if keybinds_file.load(KEYBINDS_FILEPATH) == OK:
-		for key in keybinds_file.get_section_keys("keybinds"):
-			var key_value = keybinds_file.get_value("keybinds", key)
-			
-			if str(key_value) != "":
-				keybinds[key] = key_value
-			else:
-				keybinds[key] = null
-	
-	set_keybinds()
-
-
-func set_keybinds() -> void:
-	var key_node: Control = keybind_settings_node.get_node("Keys/DummyKey")
-	
-	for key in keybinds.keys():
-		var display_text: String = keybinds[key][0]
-		var keycode: int = keybinds[key][1]
-		var keycode_as_string: String = OS.get_keycode_string(keycode)
-		
-		var actionlist: Array[InputEvent] = InputMap.action_get_events(key)
-		if not actionlist.is_empty():
-			InputMap.action_erase_event(key, actionlist[0])
-		
-		if keycode != null:
-			var new_key = InputEventKey.new()
-			new_key.set_keycode(keycode)
-			InputMap.action_add_event(key, new_key)
-		
-			var new_key_node = key_node.duplicate()
-			
-			keybind_settings_node.get_node("Keys").add_child(new_key_node)
-			new_key_node.get_node("KeyNameText").set_text(display_text)
-			new_key_node.get_node("ButtonChangeKey/Contents/Text").set_text(keycode_as_string)
-			new_key_node.show()
+	_init_settings()
 
 
 func update_ui() -> void:
@@ -80,10 +46,93 @@ func convert_audio_value(value: float):
 	return value
 
 
-func _on_button_fullscreen_pressed():
-	fullscreen = !fullscreen
+func _init_settings() -> void:
+	var settings_file = ConfigFile.new()
+	var can_load_settings = settings_file.load(SETTINGS_FILEPATH)
 	
-	if fullscreen:
+	if can_load_settings != OK:
+		_use_default_settings()
+		return
+	
+	for key in settings_file.get_section_keys("keybinds"):
+		var key_value = settings_file.get_value("keybinds", key)
+		
+		if key_value[1] != null:
+			keybinds[key] = key_value
+	
+	_set_keybinds_ui()
+
+
+func _use_default_settings() -> void:
+	# Set default volume displays
+	volume_node_master.get_node("Master").set_value(DEFAULT_VOLUME)
+	volume_node_master.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
+	volume_node_music.get_node("Music").set_value(DEFAULT_VOLUME)
+	volume_node_music.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
+	volume_node_sfx.get_node("Sfx").set_value(DEFAULT_VOLUME)
+	volume_node_sfx.get_node("SliderBackground").set_value(DEFAULT_VOLUME)
+	
+	# Set default volumes
+	AudioServer.set_bus_volume_db(0, convert_audio_value(DEFAULT_VOLUME))
+	AudioServer.set_bus_volume_db(1, convert_audio_value(DEFAULT_VOLUME))
+	AudioServer.set_bus_volume_db(2, convert_audio_value(DEFAULT_VOLUME))
+	
+	# Set default keybinds
+	for keybind in keybinds.keys():
+		var actions_list: Array[InputEvent] = InputMap.action_get_events(keybind)
+		
+		for action: InputEvent in actions_list:
+			if action is InputEventKey:
+				var keycode: Key = action.get_physical_keycode()
+				keybinds[keybind].append(keycode)
+	
+	_save_settings()
+	_set_keybinds_ui()
+
+
+func _save_settings() -> void:
+	var settings_file = ConfigFile.new()
+	
+	var audio_master: float = volume_node_master.get_node("Master").get_value()
+	var audio_music: float = volume_node_music.get_node("Music").get_value()
+	var audio_sfx: float = volume_node_sfx.get_node("Sfx").get_value()
+	
+	settings_file.set_value("audio", "master", audio_master)
+	settings_file.set_value("audio", "music", audio_music)
+	settings_file.set_value("audio", "sfx", audio_sfx)
+	
+	settings_file.set_value("screen", "is_fullscreen", is_fullscreen)
+	
+	for keybind in keybinds:
+		settings_file.set_value("keybinds", keybind, keybinds[keybind])
+	
+	settings_file.save(SETTINGS_FILEPATH)
+
+
+func _set_keybinds_ui() -> void:
+	var key_node: Control = keybind_settings_node.get_node("Keys/DummyKey")
+	
+	var key_index: int = 0
+	for keybind in keybinds:
+		for keycode: int in keybinds[keybind]:
+			var display_text: String = keybind_names[key_index]
+			var keycode_as_string: String = OS.get_keycode_string(keycode)
+			
+			if keycode != null:
+				var new_key_node = key_node.duplicate()
+				
+				keybind_settings_node.get_node("Keys").add_child(new_key_node)
+				new_key_node.get_node("KeyNameText").set_text(display_text)
+				new_key_node.get_node("ButtonChangeKey/Contents/Text").set_text(keycode_as_string)
+				new_key_node.show()
+			
+			key_index += 1
+
+
+func _on_button_fullscreen_pressed():
+	is_fullscreen = !is_fullscreen
+	
+	if is_fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -92,9 +141,9 @@ func _on_button_fullscreen_pressed():
 
 
 func _on_button_keybinds_pressed():
-	keybinds_open = !keybinds_open
+	is_keybinds_open = !is_keybinds_open
 	
-	if keybinds_open:
+	if is_keybinds_open:
 		hide()
 		keybind_settings_node.show()
 	

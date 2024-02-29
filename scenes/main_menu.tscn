@@ -249,6 +249,7 @@ mouse_filter = 2
 
 [node name="SpriteBackground" type="NinePatchRect" parent="Menus/Credits/ButtonBack/Contents"]
 texture_filter = 1
+layout_mode = 0
 offset_left = -2.0
 offset_top = -2.0
 offset_right = 34.0
@@ -322,6 +323,7 @@ mouse_filter = 2
 
 [node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/ButtonBack/Contents"]
 texture_filter = 1
+layout_mode = 0
 offset_left = -2.0
 offset_top = -2.0
 offset_right = 34.0
@@ -557,6 +559,7 @@ vertical_alignment = 1
 
 [node name="ButtonKeybinds" type="Button" parent="Menus/Settings/Settings" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 120.0
 offset_top = 136.0
 offset_right = 184.0
@@ -570,6 +573,7 @@ mouse_filter = 2
 
 [node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/Settings/ButtonKeybinds/Contents"]
 texture_filter = 1
+layout_mode = 0
 offset_top = -2.0
 offset_right = 64.0
 offset_bottom = 18.0
@@ -616,6 +620,7 @@ visible = false
 layout_mode = 2
 
 [node name="KeyNameText" type="Label" parent="Menus/Settings/KeybindSettings/Keys/DummyKey"]
+layout_mode = 0
 offset_left = -8.0
 offset_right = 72.0
 offset_bottom = 16.0
@@ -629,6 +634,7 @@ vertical_alignment = 1
 
 [node name="ButtonRemoveKey" type="Button" parent="Menus/Settings/KeybindSettings/Keys/DummyKey" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 160.0
 offset_right = 176.0
 offset_bottom = 16.0
@@ -650,6 +656,7 @@ texture = ExtResource("14_wi402")
 
 [node name="ButtonChangeKey" type="Button" parent="Menus/Settings/KeybindSettings/Keys/DummyKey" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 72.0
 offset_right = 152.0
 offset_bottom = 16.0
@@ -686,6 +693,7 @@ vertical_alignment = 1
 
 [node name="ButtonCloseKeybinds" type="Button" parent="Menus/Settings/KeybindSettings" groups=["buttons"]]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 144.0
 offset_top = 152.0
 offset_right = 176.0
@@ -699,6 +707,7 @@ mouse_filter = 2
 
 [node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/KeybindSettings/ButtonCloseKeybinds/Contents"]
 texture_filter = 1
+layout_mode = 0
 offset_top = -2.0
 offset_right = 32.0
 offset_bottom = 18.0
