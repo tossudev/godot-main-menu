@@ -150,10 +150,16 @@ func _load_settings(settings_file: ConfigFile) -> void:
 	
 	# Load keybinds
 	for key in settings_file.get_section_keys("keybinds"):
+		InputMap.action_erase_events(key)
 		var key_value = settings_file.get_value("keybinds", key)
 		
 		if key_value != null:
 			keybinds[key] = key_value
+			
+			for keycode: int in key_value:
+				var new_event := InputEventKey.new()
+				new_event.set_keycode(keycode)
+				InputMap.action_add_event(key, new_event)
 	
 	update_ui()
 
@@ -163,24 +169,54 @@ func _set_keybinds_ui() -> void:
 	
 	var key_index: int = 0
 	for keybind in keybinds:
-		for keycode: int in keybinds[keybind]:
-			# Get action name
-			var display_text: String = keybind_names[key_index]
-			
-			# Get keycodes for each action in readable formats.
-			var keycode_as_string: String = OS.get_keycode_string(keycode)
-			
-			# Create a duplicate of the UI key element for each action in memory.
-			if keycode != null:
-				var new_key_node = key_node.duplicate()
-				
-				# Apply values to UI elements
-				keybind_settings_node.get_node("Keys").add_child(new_key_node)
-				new_key_node.get_node("KeyNameText").set_text(display_text)
-				new_key_node.get_node("ButtonChangeKey/Contents/Text").set_text(keycode_as_string)
-				new_key_node.show()
-			
-			key_index += 1
+		
+		# Create a duplicate of the UI key element for each action in memory.
+		var new_key_node = key_node.duplicate()
+		keybind_settings_node.get_node("Keys").add_child(new_key_node)
+		
+		new_key_node.settings_node = self
+		new_key_node.action_name = keybind
+		new_key_node.key_index = key_index
+		
+		_update_key(keybind, key_index)
+		key_index += 1
+
+
+func _update_key(keybind: String, key_index: int) -> void:
+	var key_node: Control = $"../KeybindSettings/Keys".get_child(key_index + 1)
+	
+	var keycode_texts_list: Array = []
+	var action_text: String = ""
+	
+	for keycode: int in keybinds[keybind]:
+		# Get action name
+		action_text = keybind_names[key_index]
+		
+		# Get keycodes for each action in readable formats.
+		keycode_texts_list.append(OS.get_keycode_string(keycode))
+	
+	# Get all keycode names in a nice list separated by slashes.
+	var keycode_text_to_display: String = ""
+	
+	var keycode_index: int = 0
+	for keycode_text: String in keycode_texts_list:
+		if keycode_index == keycode_texts_list.size() - 1:
+			keycode_text_to_display += keycode_text
+		
+		else:
+			keycode_text_to_display += (keycode_text + " / ")
+		
+		keycode_index += 1
+	
+	key_node.action_text = action_text
+	key_node.key_text = keycode_text_to_display
+	
+	# Apply values to UI elements
+	key_node.get_node(
+		"KeyNameText").set_text(action_text)
+	key_node.get_node(
+		"ButtonChangeKey/Contents/Text").set_text(keycode_text_to_display)
+	key_node.show()
 
 
 func _on_button_fullscreen_pressed():

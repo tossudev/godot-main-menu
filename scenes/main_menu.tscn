@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://w8fhk5w0x1xg"]
+[gd_scene load_steps=22 format=3 uid="uid://w8fhk5w0x1xg"]
 
 [ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_ek0oj"]
 [ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
@@ -14,7 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://dudj30yft3otl" path="res://assets/textures/ui/ui_slider_full.png" id="11_o82qy"]
 [ext_resource type="Texture2D" uid="uid://csveq48ogxbuu" path="res://assets/textures/ui/ui_slider_empty.png" id="11_t60n8"]
 [ext_resource type="Texture2D" uid="uid://ccq712s810dv6" path="res://assets/textures/ui/ui_checkmark.png" id="13_1ajwr"]
+[ext_resource type="Script" path="res://scripts/main_menu/keybind_node.gd" id="14_o0iho"]
 [ext_resource type="Texture2D" uid="uid://esdh0obh8xs6" path="res://assets/textures/ui/ui_trash.png" id="14_wi402"]
+[ext_resource type="Texture2D" uid="uid://caxso45p7yp3p" path="res://assets/textures/ui/ninepatch_selected.png" id="15_mc2cv"]
 [ext_resource type="AudioStream" uid="uid://dsfcgns0c5d78" path="res://assets/sound/song.mp3" id="16_4lhqc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r38uj"]
@@ -618,6 +620,9 @@ theme_override_constants/separation = 22
 [node name="DummyKey" type="Control" parent="Menus/Settings/KeybindSettings/Keys"]
 visible = false
 layout_mode = 2
+script = ExtResource("14_o0iho")
+texture_normal = ExtResource("6_rq5mk")
+texture_locked = ExtResource("15_mc2cv")
 
 [node name="KeyNameText" type="Label" parent="Menus/Settings/KeybindSettings/Keys/DummyKey"]
 layout_mode = 0
@@ -660,6 +665,7 @@ layout_mode = 0
 offset_left = 72.0
 offset_right = 152.0
 offset_bottom = 16.0
+toggle_mode = true
 
 [node name="Contents" type="Control" parent="Menus/Settings/KeybindSettings/Keys/DummyKey/ButtonChangeKey"]
 anchors_preset = 0
