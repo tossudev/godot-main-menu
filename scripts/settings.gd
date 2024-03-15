@@ -9,6 +9,8 @@ const DEFAULT_VOLUME: float = 0.8
 @onready var volume_node_music = $VolumeMusic
 @onready var volume_node_sfx = $VolumeSfx
 @onready var keybind_settings_node: Control = %KeybindSettings
+@onready var button_close: Control = $"../KeybindSettings/ButtonCloseKeybinds"
+@onready var button_back: Control = $"../ButtonBack"
 
 var is_keybinds_open: bool = false
 
@@ -186,12 +188,18 @@ func _update_key(keybind: String, key_index: int) -> void:
 	var key_node: Control = $"../KeybindSettings/Keys".get_child(key_index + 1)
 	
 	var keycode_texts_list: Array = []
-	var action_text: String = ""
+	var action_text: String = keybind_names[key_index]
+	
+	# If no keybinds are set for an action, prevent user from exiting selection.
+	if keybinds[keybind] == []:
+		button_back.hide()
+		button_close.hide()
+	
+	else:
+		button_back.show()
+		button_close.show()
 	
 	for keycode: int in keybinds[keybind]:
-		# Get action name
-		action_text = keybind_names[key_index]
-		
 		# Get keycodes for each action in readable formats.
 		keycode_texts_list.append(OS.get_keycode_string(keycode))
 	

@@ -9,12 +9,14 @@ var key_text: String = "undefined"
 var key_index: int = -1
 
 @onready var button_add_input: Button = $ButtonChangeKey
+@onready var button_remove_all: Button = $ButtonRemoveKey
 var settings_node: Control
 
 
 func _ready() -> void:
 	set_process_input(false)
 	button_add_input.connect("toggled", _on_change_key_activated)
+	button_remove_all.connect("pressed", _on_remove_all_pressed)
 	
 	update_key_ui()
 
@@ -27,6 +29,12 @@ func _input(event: InputEvent):
 func update_key_ui() -> void:
 	var binds_amount: int = InputMap.action_get_events(action_name).size()
 	var button_sprite: NinePatchRect = button_add_input.get_node("Contents/SpriteBackground")
+	
+	if binds_amount == 0:
+		set_modulate(Color.RED)
+		return
+	
+	set_modulate(Color.WHITE)
 	
 	if binds_amount >= 3:
 		button_add_input.set_disabled(true)
@@ -55,3 +63,10 @@ func _add_new_input(event: InputEvent) -> void:
 
 func _on_change_key_activated(toggled: bool):
 	set_process_input(toggled)
+
+
+func _on_remove_all_pressed() -> void:
+	InputMap.action_erase_events(action_name)
+	settings_node.keybinds[action_name] = []
+	settings_node._update_key(action_name, key_index)
+	update_key_ui()
