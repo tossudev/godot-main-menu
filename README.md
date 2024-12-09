@@ -1,6 +1,6 @@
 # Godot main menu
 Custom Godot main menu that features simple settings, keybinds, credits page and more.  
-Using Godot 4.2.1.stable
+Using Godot 4.3.stable
 
 # To-do
 ### Settings  
