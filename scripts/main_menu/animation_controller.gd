@@ -14,6 +14,7 @@ const ANIM_VALUES_BUTTON: Dictionary = {
 	"rotation_pressed" : 0.1,
 	"time" : 1.2,
 }
+
 const ANIM_VALUES_TITLE: Dictionary = {
 	"scale_time" : 1.75,			# Time multiplier for animation
 	"scale_amount" : 0.1,			# Scale multiplier for animation
@@ -91,7 +92,8 @@ func do_object_animation(
 		object: Object,
 		from: Variant,
 		to: Variant,
-		speed: float):
+		speed: float
+		):
 	
 	# If we change scenes when pressing button, skip animations.
 	if SceneChanger.transition_playing:

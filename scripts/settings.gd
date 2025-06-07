@@ -191,13 +191,15 @@ func _update_key(keybind: String, key_index: int) -> void:
 	var action_text: String = keybind_names[key_index]
 	
 	# If no keybinds are set for an action, prevent user from exiting selection.
-	if keybinds[keybind] == []:
-		button_back.hide()
-		button_close.hide()
-	
-	else:
-		button_back.show()
-		button_close.show()
+	for bind: Array in keybinds.values():
+		if bind == []:
+			button_back.hide()
+			button_close.hide()
+			break
+		
+		else:
+			button_back.show()
+			button_close.show()
 	
 	for keycode: int in keybinds[keybind]:
 		# Get keycodes for each action in readable formats.

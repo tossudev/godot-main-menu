@@ -44,9 +44,3 @@ func _update_background_visuals(delta: float) -> void:
 			layer_node.position.x = 0.0
 		
 		layer_index += 1
-
-
-
-
-
-

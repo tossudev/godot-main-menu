@@ -57,4 +57,3 @@ func _on_button_back_pressed():
 
 func _on_button_quit_pressed():
 	SceneChanger.quit()
-
