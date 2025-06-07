@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dh3rebpakvpv6"]
 
-[ext_resource type="Script" path="res://scripts/scene_changer.gd" id="1_gkdit"]
-[ext_resource type="Shader" path="res://assets/shaders/scene_change_transition.gdshader" id="1_mka6u"]
+[ext_resource type="Script" uid="uid://cwhl1h3yjrtr1" path="res://scripts/scene_changer.gd" id="1_gkdit"]
+[ext_resource type="Shader" uid="uid://crahk2bm7av0u" path="res://assets/shaders/scene_change_transition.gdshader" id="1_mka6u"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsth2"]
 shader = ExtResource("1_mka6u")
